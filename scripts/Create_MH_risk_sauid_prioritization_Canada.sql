@@ -1,8 +1,8 @@
 -- create schema for new scenario
 CREATE SCHEMA IF NOT EXISTS results_nhsl_hazard_threat;
 
-DROP TABLE IF EXISTS results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl CASCADE;
-CREATE TABLE results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl AS
+DROP TABLE IF EXISTS results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl CASCADE;
+CREATE TABLE results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl AS
 SELECT
 -- location
 a."Sauid",
@@ -76,9 +76,9 @@ CASE
 
 -- population relative
 b."Et_PopNight" AS "CSD_PopNight",
-(a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) AS "Et_PopNight_rel", -- divide by zero error, set null
+(a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) AS "Et_PopNight_rel", -- divide by zero, set null
 CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -293,7 +293,7 @@ CASE
 	WHEN a."HTi_PGA500" < (SELECT pga_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_PGA500" > (SELECT pga_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -354,7 +354,7 @@ CASE
 	WHEN a."HTi_PGA500" < (SELECT pga_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_PGA500" > (SELECT pga_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -518,7 +518,7 @@ CASE
 	WHEN a."HTi_Fld500" < (SELECT fld_tsun_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Fld500" > (SELECT fld_tsun_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -579,7 +579,7 @@ CASE
 	WHEN a."HTi_Fld500" < (SELECT fld_tsun_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Fld500" > (SELECT fld_tsun_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -743,7 +743,7 @@ CASE
 	WHEN a."HTi_Wildfire" < (SELECT wildfire_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Wildfire" > (SELECT wildfire_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -804,7 +804,7 @@ CASE
 	WHEN a."HTi_Wildfire" < (SELECT wildfire_pp_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Wildfire" > (SELECT wildfire_pp_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -968,7 +968,7 @@ CASE
 	WHEN a."HTi_Cy500" < (SELECT cy_ppl_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Cy500" > (SELECT cy_ppl_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -1029,7 +1029,7 @@ CASE
 	WHEN a."HTi_Cy500" < (SELECT cy_ppl_to FROM mh.mh_ratings_thresholds WHERE impact_potential = 'High') THEN 4
 	WHEN a."HTi_Cy500" > (SELECT cy_ppl_frm FROM mh.mh_ratings_thresholds WHERE impact_potential = 'Extreme') THEN 5
 	ELSE 0 END) * (CASE
-	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero error, set null
+	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) IS NULL THEN 0 -- catch null values from divide by zero, set null
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) = 0 THEN 0
 	WHEN (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)) < 
 		(SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY (a."Et_PopNight"/NULLIF(b."Et_PopNight",0)))
@@ -1058,23 +1058,23 @@ a.geom_poly
 
 FROM results_nhsl_hazard_threat.hazard_threat_values_s a
 LEFT JOIN results_nhsl_hazard_threat.hazard_threat_values_csd b ON a.csduid = b.csduid
-LEFT JOIN results_nhsl_social_fabric.nhsl_social_fabric_all_indicators_s_tbl c ON a."Sauid" = c."Sauid"
+LEFT JOIN results_nhsl_social_fabric.nhsl_social_fabric_indicators_s c ON a."Sauid" = c."Sauid"
 ORDER BY a."Sauid" ASC; 
 
 -- update total absolute and relative scores
-UPDATE results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl
+UPDATE results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl
 SET total_abs_score = eq_shaking_score_abs + fld_priority_score_abs + wildfire_priority_score_abs + cy_priority_score_abs;
 
-UPDATE results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl
+UPDATE results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl
 SET total_rel_score = eq_shaking_score_rel + fld_priority_score_rel + wildfire_priority_score_rel + cy_priority_score_rel;
 
 
-
 -- create view
-DROP VIEW IF EXISTS results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s CASCADE;
+DROP VIEW IF EXISTS results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s CASCADE;
 
-CREATE VIEW results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s AS 
-SELECT * FROM results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl;
+CREATE VIEW results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s AS 
+SELECT * FROM results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl;
+
 
 -- aggregate to csd level
 DROP TABLE IF EXISTS results_nhsl_hazard_threat.nhsl_hazard_threat_prioritization_csd_tbl CASCADE;
@@ -1098,7 +1098,7 @@ SUM(cy_priority_score_rel) AS "cy_priority_score_rel",
 SUM(total_abs_score) AS "total_abs_score",
 SUM(total_rel_score) AS "total_rel_score",
 b.geom
-FROM results_nhsl_hazard_threat.nhsl_hazard_threat_all_indicators_s_tbl a
+FROM results_nhsl_hazard_threat.nhsl_hazard_threat_indicators_s_tbl a
 LEFT JOIN boundaries."Geometry_CSDUID" b on a.csduid = b."CSDUID"
 GROUP BY a.csduid,b."CSDNAME",b.geom;
 
